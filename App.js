@@ -3,6 +3,7 @@ import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import CategoriesScreen from './screens/CategoriesScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import MealOverViewScreen from './screens/MealOverViewScreen';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -11,7 +12,11 @@ export default function App() {
     <StatusBar style='dark'/>
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name='Meals Categories' component={CategoriesScreen}/>
+        <Stack.Screen name='MealsCategories'
+         options={{title:'Meal Categories'}}
+          component={CategoriesScreen}
+          />
+        <Stack.Screen name='MealsOverview' options={{title:'Meal Overview',headerBackTitle:'Back'}} component={MealOverViewScreen}/>
       </Stack.Navigator>
    
     </NavigationContainer>
