@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Pressable, Platform } from "react-native"
-
+import { useNavigation } from "@react-navigation/native"
 function CategoryGridTile({title,color,onPress}) {
+   const navigation= useNavigation();
   return (
    <View style={styles.gridItem}>
     <Pressable android_ripple={{color:'#ccc'}}
