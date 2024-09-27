@@ -1,18 +1,31 @@
-import { Text, View, StyleSheet,Image } from 'react-native';
+import { Text, View, StyleSheet,Image, ScrollView, Button } from 'react-native';
 import { MEALS } from '../data/dummy-data';
 import MealDetail from '../components/MealDetail';
 import Subtitle from '../components/mealdetail/Subtitle';
+import List from '../components/mealdetail/List';
+import { useLayoutEffect } from 'react';
+import IconButton from '../components/IconButton';
 
-function MealDetailScreen({ route }) {
+function MealDetailScreen({ route, navigation }) {
     const id = route.params.mealID;
 
     const mealDetail = MEALS.find((item) => item.id === id);
 
+function headerButtonPressHandler(){
+    console.log('pressed')
+}
+useLayoutEffect(()=>{
+    navigation.setOptions({
+        headerRight:()=>{
+            return <IconButton name='heart' color='white' onPress={headerButtonPressHandler}/>
+        }
+    })
+},[navigation,headerButtonPressHandler])
 
    
 
     return (
-        <View>
+        <ScrollView style={styles.rootScreen}>
            <Image style={styles.image} source={{ uri: mealDetail.imageUrl }}/>
             <Text style={styles.title}>{mealDetail.title}</Text>
             <MealDetail duration={mealDetail.duration}
@@ -20,21 +33,24 @@ function MealDetailScreen({ route }) {
             textStyle={styles.detailStlye}
             affordability={mealDetail.affordability}
             />
-           <Subtitle>Ingredients</Subtitle>
+        <View style={styles.listOuterContainer}>
+          <View style={styles.listContainer}>
+                <Subtitle>Ingredients</Subtitle>
 
-            {mealDetail.ingredients.map((ingredient)=>
-              <Text key={ingredient}>{ingredient}</Text>
-            )}
-          <Subtitle>steps </Subtitle>
-            {mealDetail.steps.map((ingredient)=>
-              <Text key={ingredient}>{ingredient}</Text>
-            )}
+                <List data={mealDetail.ingredients}/>
+                <Subtitle>steps </Subtitle>
+                <List data={mealDetail.steps}/>
+          </View>
         </View>
+        </ScrollView>
     );
 }
 
 export default MealDetailScreen;
 const styles=StyleSheet.create({
+    rootScreen:{
+        marginBottom:10
+    },
     image:{
         width:'100%',
         height:300
@@ -66,5 +82,11 @@ const styles=StyleSheet.create({
         padding:6,
         marginVertical:4,
         marginHorizontal:16
+    },
+    listContainer:{
+        width:'80%'
+    },
+    listOuterContainer:{
+        alignItems:'center'
     }
-})
+}) 

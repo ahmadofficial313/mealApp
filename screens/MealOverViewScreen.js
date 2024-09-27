@@ -11,9 +11,9 @@ function MealOverViewScreen({ route, navigation }) {
     return itemData.categoryIds.indexOf(catID) >= 0;
   });
 
-  // Find the category title
+  
 
-  // Set navigation options in useEffect
+  
   // useEffect(() => {
   //   const categoryTitle = CATEGORIES.find(
   //   (category) => category.id === catID).title; 
@@ -22,14 +22,18 @@ function MealOverViewScreen({ route, navigation }) {
   //     title: categoryTitle , // Default title if not found
   //   });
   // }, [ catID,navigation]); // Add dependencies
+
   useLayoutEffect(() => {
+    // Find the category title
     const categoryTitle = CATEGORIES.find(
     (category) => category.id === catID).title; 
-
+    // Set navigation options 
     navigation.setOptions({
-      title: categoryTitle , // Default title if not found
+      title: categoryTitle 
     });
   }, [ catID,navigation]); // Add dependencies
+
+  
   // Function to render each meal item 
   function renderMealItem(itemData) {
 
