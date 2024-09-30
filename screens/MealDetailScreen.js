@@ -3,24 +3,32 @@ import { MEALS } from '../data/dummy-data';
 import MealDetail from '../components/MealDetail';
 import Subtitle from '../components/mealdetail/Subtitle';
 import List from '../components/mealdetail/List';
-import { useLayoutEffect } from 'react';
+import { useContext, useLayoutEffect } from 'react';
 import IconButton from '../components/IconButton';
+import { FavouriteContext } from '../store/context/favourite-Context';
 
 function MealDetailScreen({ route, navigation }) {
+    const FavouriteMealContext=useContext(FavouriteContext)
     const id = route.params.mealID;
 
     const mealDetail = MEALS.find((item) => item.id === id);
-
-function headerButtonPressHandler(){
-    console.log('pressed')
+   const isFavourite=FavouriteMealContext.ids.includes(id)
+function changeFavouriteSatusHandler(){
+    if(isFavourite){
+        FavouriteMealContext.removeFavourite(id);
+    }
+    else{
+        FavouriteMealContext.addFavourite(id)
+    }
 }
 useLayoutEffect(()=>{
     navigation.setOptions({
         headerRight:()=>{
-            return <IconButton name='heart' color='white' onPress={headerButtonPressHandler}/>
+            return <IconButton 
+            name={isFavourite ? 'heart': 'heart-outline'} color='white' onPress={changeFavouriteSatusHandler}/>
         }
     })
-},[navigation,headerButtonPressHandler])
+},[navigation,changeFavouriteSatusHandler])
 
    
 
